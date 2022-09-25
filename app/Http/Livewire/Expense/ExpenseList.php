@@ -12,7 +12,7 @@ class ExpenseList extends Component
     {
         //Vamos pegar as despesas do usuario logado e paginar pra exibir
         //se tiver despesas pra este usuario retornaremos, senao retornaremos um array vazio
-        $expenses = auth()->user()->expenses()->count() ? auth()->user()->expenses()->orderBy('created_at', 'DESC')->paginate(3) : [];
+        $expenses = auth()->user()->expenses()->count() ? auth()->user()->expenses()->orderBy('created_at', 'DESC')->paginate(5) : [];
 
         return view('livewire.expense.expense-list', compact('expenses'));
     }

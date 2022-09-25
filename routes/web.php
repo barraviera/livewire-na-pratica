@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Expense\{ExpenseCreate, ExpenseEdit, ExpenseList};
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,26 @@ Route::middleware([
         Route::get('/', ExpenseList::class)->name('index');
         Route::get('/create', ExpenseCreate::class)->name('create');
         Route::get('/edit/{expense}', ExpenseEdit::class)->name('edit');
+
+        Route::get('/{expense}/photo', function($expense){
+
+            //pegamos o usuario logado e buscamos os expenses relacionados a ele passando por parametro pro findOrFail o que veio da rota /{expense}/photo
+            $expense = auth()->user()->expenses()->findOrFail($expense);
+
+            //se a imagem nao existir iremos retornar uma mensagem de not found
+            if( !Storage::disk('public')->exists($expense->photo) )
+                return abort(404, 'Image not found!');
+            //se a imagem existir iremos retorna-la
+            $image = Storage::disk('public')->get($expense->photo);
+
+            //pegar o formato correto da imagem
+            $mimeType = File::mimeType(storage_path('app/public/' . $expense->photo));
+
+            //retornar ela como imagem
+            return response($image)->header('Content-Type', $mimeType); //header para força a renderização como imagem e nao como html
+
+
+        })->name('photo');
 
     });
 });
