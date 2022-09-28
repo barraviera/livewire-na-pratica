@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Expense\{ExpenseCreate, ExpenseEdit, ExpenseList};
+use App\Http\Livewire\Plan\{PlanList, PlanCreate};
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -59,6 +60,13 @@ Route::middleware([
 
 
         })->name('photo');
+    });
+
+    Route::prefix('plans')->name('plans.')->group(function(){
+
+        Route::get('/', PlanList::class)->name('index'); //apelido fica plans.index
+        Route::get('/create', PlanCreate::class)->name('create');
 
     });
+
 });

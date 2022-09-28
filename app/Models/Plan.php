@@ -9,6 +9,7 @@ class Plan extends Model
 {
     use HasFactory;
 
+    //reference será o codigo do pagseguro
     protected $fillable = ['name', 'description', 'slug', 'reference', 'price'];
 
     //Um plano terá muitas features(hasMany)
