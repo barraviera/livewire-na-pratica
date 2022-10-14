@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Expense\{ExpenseCreate, ExpenseEdit, ExpenseList};
+use App\Http\Livewire\Payment\CreditCard;
 use App\Http\Livewire\Plan\{PlanList, PlanCreate};
+use App\Services\PagSeguro\Subscription\SubscriptionReaderService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -69,4 +71,13 @@ Route::middleware([
 
     });
 
+});
+
+//plan::slug ao inves de buscar pelo id como é o normal acontecer por padrao, definimos por buscar pelo slug {plan:slug}
+Route::get('subscription/{plan:slug}', CreditCard::class)->name('plan.subscription')->middleware('auth:sanctum');
+
+Route::get('/notification', function(){
+    $code = '1193A5492A2A2AB444E87F9F958BBE61';
+    $sub = (new SubscriptionReaderService())->getSubscriptionByNotificationCode($code);
+    dd($sub);
 });

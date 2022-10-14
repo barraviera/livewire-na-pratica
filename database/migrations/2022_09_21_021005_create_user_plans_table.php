@@ -18,7 +18,7 @@ class CreateUserPlansTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('plan_id')->constrained()->cascadeOnDelete();
-            $table->string('reference_transaction');
+            $table->string('reference_transaction'); //codigo da adesao
             $table->timestamps();
         });
     }
